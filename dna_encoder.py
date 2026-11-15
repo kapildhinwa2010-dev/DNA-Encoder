@@ -164,10 +164,14 @@ class DNAEncoder(nn.Module):
         state_dict: Dict[str, torch.Tensor]
     ) -> Dict[str, Any]:
         """
-        Encode a model's state dict into DNA representation.
+        Save the DNA network's own parameters.
         
-        This extracts the essential parameters from the DNA network itself,
-        which can be used to reconstruct any weight matrix.
+        NOTE (honest limitation): this does NOT fit the DNA network to the
+        given state_dict. The returned DNA state describes the encoder's
+        current (randomly initialized or separately trained) network, and
+        decode() reconstructs weights from that network's prior - not from
+        the original weights. To actually compress a specific model, the
+        DNA network must first be trained to fit that model's weights.
         
         Args:
             state_dict: Model state dictionary
